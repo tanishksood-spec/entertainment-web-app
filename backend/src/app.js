@@ -37,4 +37,8 @@ app.get('/', (req, res) => {
 
 // exporting 
 module.exports = { app }
-
+app.use(cors({
+    origin: [process.env.FRONTEND_URL],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}))
