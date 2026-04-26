@@ -1,247 +1,224 @@
-# Entertainment App
+# 🎬 Entertainment Web App
 
-The Entertainment App is a full-stack application designed to provide users with access to a vast collection of movies and TV shows, leveraging the TMDB API for fetching media details. It features user authentication, media exploration, and personal bookmarks, offering a comprehensive and personalized media browsing experience.
+A full-stack entertainment web application that allows users to browse trending movies and TV shows, search for content, and bookmark their favorites. Built with React, Node.js, Express, and MongoDB.
 
-## Deployment
+![App Preview](https://img.shields.io/badge/Status-Live-brightgreen) ![React](https://img.shields.io/badge/React-18-blue) ![Node.js](https://img.shields.io/badge/Node.js-Express-green) ![MongoDB](https://img.shields.io/badge/Database-MongoDB-green)
 
-- **Frontend:** :- https://entertainment-app-anurag-affection.vercel.app/
-- **Backend:** :- https://entertainment-web-app-0aqb.onrender.com/
+---
 
-## Important Links
+## 🌐 Live Demo
 
-- API Documentation : https://documenter.getpostman.com/view/30096390/2sA3JGeicf
-- Video Explanation: https://youtu.be/r7oX1R0dADk
-- Database Design: [Google Docs Link](https://docs.google.com/document/d/1hbnF4K5TD7rX6tV_f1QHFxl1lUa7iwCuzthboU_MwQM/edit?usp=sharing)
-- Best Practices : [Google Docs Link](https://docs.google.com/document/d/1KuIXsouPjAgOUs59XOcKuDiKuu74_20GStGO6DTDx6g/edit?usp=sharing)
+🔗 **Frontend:** [https://entertainment-web-app-git-master-tanishksood-specs-projects.vercel.app](https://entertainment-web-app-git-master-tanishksood-specs-projects.vercel.app)
 
+🔗 **Backend API:** [https://entertainment-web-app-backend-0dvu.onrender.com](https://entertainment-web-app-backend-0dvu.onrender.com)
 
-## Features
+---
 
-- **User Authentication:** Utilizes JWT for secure login and registration, ensuring user data protection.
-- **Media Exploration:** Allows users to discover trending movies and TV shows, with detailed views available for each media item.
-- **Bookmarks:** Enables users to bookmark their favorite media, creating a personalized list of favorites accessible at any time.
-- **Detailed Media Information:** Provides in-depth details about movies and TV shows, including cast, genres, ratings, and more.
+## ✨ Features
 
-## Prerequisites
+- 🎥 Browse **Trending Movies** and **TV Shows**
+- 🔍 **Search** for any movie or TV series
+- 🔖 **Bookmark** your favorite movies and shows
+- 👤 **User Authentication** (Register & Login)
+- 🔐 **JWT Authentication** with secure HTTP-only cookies
+- 📱 **Fully Responsive** design for all screen sizes
+- 🎨 Beautiful dark theme UI
 
-- Node.js (v14 or later)
-- npm (v6 or later)
-- MongoDB instance (local or remote)
-- TMDB API key for fetching media data
+---
 
-## Getting Started For Backend
+## 🛠️ Tech Stack
 
-### Backend Setup
+### Frontend
+| Technology | Description |
+|------------|-------------|
+| React 18 | UI Library |
+| Vite | Build Tool |
+| Tailwind CSS | Styling |
+| React Router DOM | Client-side Routing |
+| Axios | HTTP Requests |
+| React Query | Data Fetching & Caching |
+| React Hook Form | Form Handling |
+| Material UI | UI Components |
 
-1.  **Clone the Repository:** Start by cloning the Entertainment App repository to your local machine.
+### Backend
+| Technology | Description |
+|------------|-------------|
+| Node.js | Runtime Environment |
+| Express.js | Web Framework |
+| MongoDB | Database |
+| Mongoose | ODM Library |
+| bcrypt | Password Hashing |
+| JWT | Authentication |
+| CORS | Cross Origin Resource Sharing |
+| Cookie Parser | Cookie Handling |
 
-    ```sh
-    git clone https://github.com/yourusername/entertainment-app.git
-    ```
+### External API
+| Service | Description |
+|---------|-------------|
+| TMDB API | Movies & TV Shows Data |
 
-2.  **Navigate to the Backend Directory:** Move into the backend directory of the project.
+---
 
-    ```sh
-    cd entertainment-web-app/backend
-    ```
+## 📁 Project Structure
 
-3.  **Install Dependencies:** Install the necessary dependencies using npm.
+```
+entertainment-web-app/
+│
+├── frontend/                   # React Frontend
+│   ├── public/
+│   ├── src/
+│   │   ├── components/         # Reusable Components
+│   │   │   ├── AuthComponents/ # Login, Register, Logout
+│   │   │   ├── CssComponents/  # Styled Components
+│   │   │   ├── FallbackComponent/
+│   │   │   └── HomeMedia/      # Media Cards
+│   │   ├── context/            # React Context (Global State)
+│   │   ├── pages/              # Page Components
+│   │   │   ├── Home.jsx
+│   │   │   ├── Movies.jsx
+│   │   │   ├── TvShows.jsx
+│   │   │   ├── Bookmarks.jsx
+│   │   │   └── Profile.jsx
+│   │   ├── utils/              # Utility Functions
+│   │   └── App.jsx             # Main App Component
+│   ├── .env                    # Environment Variables
+│   └── package.json
+│
+└── backend/                    # Node.js Backend
+    ├── src/
+    │   ├── controllers/        # Route Controllers
+    │   │   ├── user.controllers.js
+    │   │   ├── media.controllers.js
+    │   │   ├── bookmark.controllers.js
+    │   │   └── mediaSearch.controllers.js
+    │   ├── middleware/         # Auth Middleware
+    │   │   └── auth.js
+    │   ├── models/             # MongoDB Models
+    │   │   ├── user.models.js
+    │   │   └── bookmark.models.js
+    │   ├── routes/             # API Routes
+    │   │   ├── user.routes.js
+    │   │   ├── media.routes.js
+    │   │   └── bookmark.routes.js
+    │   ├── utils/              # Utility Functions
+    │   └── app.js              # Express App Setup
+    ├── index.js                # Entry Point
+    ├── .env                    # Environment Variables
+    └── package.json
+```
 
-    ```sh
-    npm install
-    ```
+---
 
-4.  **Configure Environment Variables:** Create a `.env` file based on the provided `.env.example` file. Provide your MongoDB URI and TMDB API key in the `.env` file.
+## 🚀 Getting Started
 
-    ```
-    MONGODB_URL= "Mongodb connection string our url "
-    TOKEN= "Secret token for authentication & cookies"
-    NODE_ENV="Current environment - Development or Production"
-    TMDB_KEY="TMDB api key "
-    FRONTEND_URL="Frontend url"
-    ```
+### Prerequisites
+- Node.js (v18 or higher)
+- MongoDB (local or Atlas)
+- TMDB API Key ([Get it here](https://www.themoviedb.org/settings/api))
 
-5.  **Start the Server:** Run the backend server.
+### Installation
 
-    ```sh
-    node index.js
-    ```
+#### 1. Clone the repository
+```bash
+git clone https://github.com/tanishksood-spec/entertainment-web-app.git
+cd entertainment-web-app
+```
 
-6.  **Verify Backend Setup:** Confirm that the backend server is running without any errors.
+#### 2. Setup Backend
+```bash
+cd backend
+npm install
+```
 
-### Backend Technologies
-- Node js 
-- Express js
-- jsonwebtoken
-- bcrypt
-- MongoDB 
-- Mongoose 
-- dotenv
-- cors
-- cookie-parser
+Create `.env` file in backend folder:
+```env
+MONGODB_URL=mongodb://localhost:27017/EntertainmentWebApp
+FRONTEND_URL=http://localhost:5173
+TOKEN=your_secret_key
+TMDB_KEY=your_tmdb_api_key
+PORT=8000
+```
 
-### Backend Project Structure
+Start backend:
+```bash
+npm start
+```
 
-- **Constant:** Contains TMDB api end points
-- **Controllers:** Contains logic for handling API requests.
-- **Middleware:** Includes middleware for authentication.
-- **Models:** Defines the schema for database collections.
-- **Routes:** API routes for handling requests to different endpoints.
-- **Utils:** Containers Helper Function to fetch media & to generate cookie.
+#### 3. Setup Frontend
+```bash
+cd frontend
+npm install
+```
 
-<pre>
-|-- src
-    |-- constants 
-        |-- media.constant.js
-    |-- controllers
-        |-- bookmark.controllers.js 
-        |-- media.controllers.js 
-        |-- mediaDetail.controllers.js 
-        |-- mediaImage.controllers.js 
-        |-- mediaSearch.controllers.js 
-        |-- user.controller.js
-    |-- middleware
-        |-- auth.js 
-    |-- models 
-        |-- bookmark.models.js 
-        |-- user.models.js 
-    |-- routes 
-        |-- bookmark.routes.js 
-        |-- media.routes.js 
-        |-- user.routes.js 
-    |-- utils
-        |-- media.utils.js 
-        |-- user.utils.js 
-    |-- app.js 
-|-- .env
-|-- .gitignore
-|-- index.js
-|-- package.json
-|-- package-lock.json
-</pre>
+Create `.env` file in frontend folder:
+```env
+VITE_API_URL=http://localhost:8000/api
+```
 
-## Getting Started For Frontend
+Start frontend:
+```bash
+npm run dev
+```
 
-### Frontend Setup
+#### 4. Open in browser
+```
+http://localhost:5173
+```
 
-1. **Navigate to the Frontend Directory:** Move into the frontend directory of the project.
+---
 
-   ```sh
-   cd entertainment-web-app/frontend
-   ```
+## 🔑 API Endpoints
 
-2. **Install Dependencies:** Install the necessary dependencies using npm.
+### User Routes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/user/register` | Register new user |
+| POST | `/api/user/login` | Login user |
+| GET | `/api/user/logout` | Logout user |
+| GET | `/api/user/profile` | Get user profile |
 
-   ```sh
-   npm install
-   ```
+### Media Routes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/media/trending` | Get trending media |
+| GET | `/api/media/movie/:page` | Get movies |
+| GET | `/api/media/tv/:page` | Get TV shows |
+| GET | `/api/media/search/:query` | Search media |
 
-3. **Configure Base Url or API end points :** This is our api endpoins, comming from backend
+### Bookmark Routes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/bookmark/add` | Add bookmark |
+| DELETE | `/api/bookmark/remove` | Remove bookmark |
+| GET | `/api/bookmark/all` | Get all bookmarks |
 
-   ```
-   const baseUrl = "Enter Your own backend api endpoints",
-   ```
+---
 
-4. **Start the Application:** Run the frontend application.
+## 🌍 Deployment
 
-   ```sh
-   npm run dev
-   ```
+- **Frontend** deployed on [Vercel](https://vercel.com)
+- **Backend** deployed on [Render](https://render.com)
+- **Database** hosted on [MongoDB Atlas](https://cloud.mongodb.com)
 
-5. **Access the Application:** Open your web browser and navigate to the specified URL (default: http://localhost:5173) to access the Entertainment App.
+---
 
-### Frontend Technologies 
+## 👨‍💻 Author
 
-- Vite
-- Npm
-- HTML
-- CSS
-- Tailwind CSS
-- React.js
-- React Query
-- Javascript
-- Context API
-- React hook form
-- React Loader Spinner
+**Tanishk Sood**
 
-### Frontend Project Structure
+[![GitHub](https://img.shields.io/badge/GitHub-tanishksood--spec-black?logo=github)](https://github.com/tanishksood-spec)
 
-- **Assets:** Contains dummy image .
-- **Components:** Reusable components code .
-- **Context:** State mangement accross applicaton for authenticatin & bookmark.
-- **Pages:** Five main pages, Home, Movie, Tv, Bookmark, Profile.
-- **Utils:** Contains baseUrl of api & function to fetch media
+---
 
-<pre>
-|-- src
-    |-- assets 
-    |-- components
-        |-- AuthComponents 
-            |-- Login.jsx 
-            |-- Logout.jsx 
-            |-- Register.jsx 
-        |-- CssComponents
-            |-- Loading.jsx
-            |-- Toast.jsx
-        |-- HomeMedia
-            |-- MediaRecommend.jsx
-            |-- MediaTrending.jsx
-        |-- MediaComponents
-            |-- Media.jsx
-            |-- MediaBookmark.jsx
-            |-- MediaBookmarked.jsx 
-            |-- MediaImage.jsx
-            |-- MediaInfo.jsx
-            |-- MediaPlay.jsx
-        |-- MediaDetails
-            |-- Details.jsx
-            |-- MediaCast.jsx
-            |-- MediaGenre.jsx 
-            |-- MediaHeading.jsx
-            |-- MediaImage.jsx
-            |-- MediaInfo.jsx
-            |-- MediaLink.jsx
-            |-- MediaRatings.jsx
-            |-- MediaSynopsis.jsx
-        |-- Error404.jsx
-        |-- Header.jsx
-        |-- MoreMedia.jsx
-        |-- SearchBar.jsx
-        |-- SearchResult.jsx
-    |-- context
-        |-- MyContext.js
-        |-- MyState.js  
-    |-- pages
-        |-- Bookmarks.jsx 
-        |-- Home.jsx 
-        |-- Movie.jsx 
-        |-- Profile.jsx 
-        |-- Tv.jsx  
-    |-- utils 
-        |-- baseUrl.js 
-        |-- fetchMultiMedia.js
-    |-- App.jsx 
-    |-- main.jsx 
-|-- .eslintrc.cjs
-|--.gitignore
-|-- index.css 
-|-- index.html
-|-- package.json
-|-- package-lock.json
-|-- postcss.config.js
-|-- tailwind.cofig.js
-|-- vite.config.js 
-</pre>
+## 📄 License
 
-## Contributing
+This project is open source and available under the [MIT License](LICENSE).
 
-Contributions are welcome! Please follow these steps to contribute:
+---
 
-1. Fork the repository.
-2. Create a new branch for your feature (`git checkout -b feature/AmazingFeature`).
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the branch (`git push origin feature/AmazingFeature`).
-5. Open a Pull Request.
+## 🙏 Acknowledgements
 
-
-## Thank You 
+- [TMDB API](https://www.themoviedb.org/) for providing movies and TV shows data
+- [Vercel](https://vercel.com) for frontend hosting
+- [Render](https://render.com) for backend hosting
+- [MongoDB Atlas](https://cloud.mongodb.com) for database hosting
