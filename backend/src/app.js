@@ -38,7 +38,9 @@ app.get('/', (req, res) => {
 // exporting 
 module.exports = { app }
 app.use(cors({
-    origin: ["https://entertainment-web-app-yt6r.vercel.app", "http://localhost:5173"],
+    origin: function(origin, callback) {
+        callback(null, true)
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }))
