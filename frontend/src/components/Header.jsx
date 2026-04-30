@@ -3,105 +3,130 @@ import { useContext } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AiFillAppstore } from "react-icons/ai";
 import { HiBookmark } from "react-icons/hi2";
-import { MdLocalMovies, MdMovie } from "react-icons/md";
+import { MdLocalMovies } from "react-icons/md";
 import { TbDeviceTvOld } from "react-icons/tb";
-
+import { MdMovie } from "react-icons/md";
 
 // from custom files 
 import userImage from '../assets/userImage.jpg'
 import userLogo from '../assets/userLogo.jpg'
 import MyContext from '../context/MyContext'
-import NavbarMenu from "./CssComponents/NavbarMenu.jsx";
 
 // Header component
 const Header = () => {
     const { isAuthenticated } = useContext(MyContext)
-
-    // Using react-router-dom hooks for navigation and getting current location
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const { mediaType } = useParams();
 
+    const navItems = [
+        { icon: AiFillAppstore, path: "/", label: "Home", match: ["", "multi"] },
+        { icon: MdLocalMovies, path: "/movie", label: "Movies", match: ["movie"] },
+        { icon: TbDeviceTvOld, path: "/tv", label: "TV Shows", match: ["tv"] },
+        { icon: HiBookmark, path: "/bookmarks", label: "Bookmarks", match: ["bookmarks"] },
+    ];
+
+    const isActive = (item) =>
+        pathname === item.path || item.match.includes(mediaType);
+
     return (
-        // Header container with responsive styling
-        <div className="w-11/12 mx-auto sticky top-0 h-fit rounded-xl bg-deepBlue flex px-2 py-3 z-50 items-center justify-between lg:h-[99%] lg:w-[5%] lg:flex-col ">
-
-            {/* Movie icon */}
-            {/* <MdMovie className="p-1 text-cyan-500 text-3xl md:text-4xl ring-1 ring-cyan-500 rounded-full" /> */}
-
-            <NavbarMenu />
-
-
-
-            {/* Navigation links */}
-            <div className="flex lg:flex-col w-2/3 h-fit lg:h-2/3 items-center justify-center lg:justify-start text-xl md:text-2xl lg:text-3xl gap-6 lg:gap-8 ">
-
-                {/* Home link */}
-                <AiFillAppstore
+        <>
+            {/* Mobile/Tablet Top Bar */}
+            <div className="lg:hidden w-full bg-deepBlue px-4 py-3 flex items-center justify-between sticky top-0 z-50 border-b border-white/10">
+                {/* Logo */}
+                <div
                     onClick={() => navigate("/")}
-                    className={
-                        "hover:text-cyan-500 cursor-pointer " +
-                        (pathname === "/" || mediaType === "multi"
-                            ? "text-cyan-500"
-                            : "text-waikawaGrey")
-                    }
-                />
+                    className="flex items-center gap-2 cursor-pointer group"
+                >
+                    <div className="w-8 h-8 bg-cyan-500 rounded-lg flex items-center justify-center">
+                        <MdMovie className="text-black text-lg" />
+                    </div>
+                    <span className="text-white font-bold text-lg tracking-wide">
+                        Cine<span className="text-cyan-500">Verse</span>
+                    </span>
+                </div>
 
-                {/* Movie link */}
-                <MdLocalMovies
-                    onClick={() => navigate("/movie")}
-                    className={
-                        "hover:text-cyan-500 cursor-pointer " +
-                        (pathname === "/movie" || mediaType === "movie"
-                            ? "text-cyan-500"
-                            : "text-waikawaGrey")
-                    }
-                />
+                {/* Mobile Nav */}
+                <div className="flex items-center gap-5 text-xl">
+                    {navItems.map((item) => (
+                        <item.icon
+                            key={item.path}
+                            onClick={() => navigate(item.path)}
+                            className={`cursor-pointer transition-all duration-200 ${
+                                isActive(item)
+                                    ? "text-cyan-500 scale-110"
+                                    : "text-waikawaGrey hover:text-white"
+                            }`}
+                        />
+                    ))}
+                </div>
 
-                {/* TV link */}
-                <TbDeviceTvOld
-                    onClick={() => navigate("/tv")}
-                    className={
-                        "hover:text-cyan-500 cursor-pointer " +
-                        (pathname === "/tv" || mediaType === "tv"
-                            ? "text-cyan-500"
-                            : "text-waikawaGrey")
-                    }
-                />
-
-                {/* Bookmarks link */}
-                <HiBookmark
-                    onClick={() => navigate("/bookmarks")}
-                    className={
-                        "hover:text-cyan-500 cursor-pointer " +
-                        (pathname === "/bookmarks" || mediaType === "bookmarks"
-                            ? "text-cyan-500"
-                            : "text-waikawaGrey")
-                    }
-                />
+                {/* Profile */}
+                <button
+                    onClick={() => navigate("/profile")}
+                    className="ring-2 ring-cyan-500 rounded-full overflow-hidden w-8 h-8 hover:ring-cyan-400 transition-all"
+                >
+                    <img
+                        src={isAuthenticated ? userImage : userLogo}
+                        alt="profile"
+                        className="w-full h-full object-cover"
+                    />
+                </button>
             </div>
 
-            {/* profile button */}
-            <button
-                onClick={() => navigate("/profile")}
-                className="h-fit w-fit ring-cyan-500 ring-1 rounded-full">
-                {/* User profile image */}
-                {
-                    isAuthenticated ? <img
-                        className="rounded-full h-8 w-8 lg:w-10 lg:h-10"
-                        src={userImage}
-                        alt="user Image"
-                    /> : <img
-                        className="rounded-full h-8 w-8 lg:w-10 lg:h-10"
-                        src={userLogo}
-                        alt="user Image"
+            {/* Desktop Sidebar */}
+            <div className="hidden lg:flex flex-col items-center justify-between w-20 min-h-screen sticky top-0 bg-deepBlue rounded-2xl py-8 px-4 border border-white/5 shadow-2xl">
+                {/* Logo */}
+                <div
+                    onClick={() => navigate("/")}
+                    className="cursor-pointer group"
+                >
+                    <div className="w-10 h-10 bg-cyan-500 rounded-xl flex items-center justify-center group-hover:bg-cyan-400 transition-all duration-200 shadow-lg shadow-cyan-500/30">
+                        <MdMovie className="text-black text-xl" />
+                    </div>
+                </div>
+
+                {/* Nav Links */}
+                <nav className="flex flex-col items-center gap-6">
+                    {navItems.map((item) => (
+                        <div
+                            key={item.path}
+                            onClick={() => navigate(item.path)}
+                            className="relative group cursor-pointer"
+                        >
+                            {/* Active indicator */}
+                            {isActive(item) && (
+                                <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-6 bg-cyan-500 rounded-r-full" />
+                            )}
+                            <div className={`p-2 rounded-xl transition-all duration-200 ${
+                                isActive(item)
+                                    ? "bg-cyan-500/20 text-cyan-500"
+                                    : "text-waikawaGrey hover:text-white hover:bg-white/10"
+                            }`}>
+                                <item.icon className="text-2xl" />
+                            </div>
+                            {/* Tooltip */}
+                            <div className="absolute left-14 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none border border-white/10">
+                                {item.label}
+                            </div>
+                        </div>
+                    ))}
+                </nav>
+
+                {/* Profile */}
+                <button
+                    onClick={() => navigate("/profile")}
+                    className="ring-2 ring-cyan-500 rounded-full overflow-hidden w-10 h-10 hover:ring-cyan-400 hover:scale-110 transition-all duration-200 shadow-lg shadow-cyan-500/20"
+                >
+                    <img
+                        src={isAuthenticated ? userImage : userLogo}
+                        alt="profile"
+                        className="w-full h-full object-cover"
                     />
-                }
-
-            </button>
-
-        </div>
+                </button>
+            </div>
+        </>
     );
 };
 
-export default Header; 
+export default Header;

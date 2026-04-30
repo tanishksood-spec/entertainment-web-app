@@ -1,124 +1,157 @@
-// from installed packages 
-import axios from 'axios'
-import  { useContext, useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom';
+import { useContext } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import { MdMovie } from "react-icons/md";
+import { FiUser, FiMail, FiLock, FiArrowRight } from "react-icons/fi";
 
-// from custom files 
-import MyContext from '../../context/MyContext';
-import baseUrl from '../../utils/baseUrl';
+import MyContext from "../../context/MyContext";
+import baseUrl from "../../utils/baseUrl";
 
+// Validation schema
+const schema = yup.object().shape({
+    name: yup.string().min(2, "Name must be at least 2 characters").required("Name is required"),
+    email: yup.string().email("Invalid email").required("Email is required"),
+    password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+});
 
-// register components 
 function Register() {
-
     const myState = useContext(MyContext);
     const navigate = useNavigate();
 
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+        resolver: yupResolver(schema),
+    });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-
+    const onSubmit = async (formData) => {
         try {
-            const api = await axios.post(`${baseUrl}/user/register`, {
-                name,
-                email,
-                password
-            }, {
-                headers: {
-                    "Content-Type": "application/json"
-                },
+            const api = await axios.post(`${baseUrl}/user/register`, formData, {
+                headers: { "Content-Type": "application/json" },
                 withCredentials: true,
             });
-
             myState.setToast(true);
-            myState.setToastMessage(api.data.message)
-            myState.setIsAuthenticated(true)
-
-            setTimeout(() => {
-                navigate('/profile')
-            }, 1500);
-        }
-        catch (error) {
+            myState.setToastMessage(api.data?.message || "Registered Successfully!");
+            myState.setIsAuthenticated(true);
+            setTimeout(() => navigate("/profile"), 1000);
+        } catch (error) {
             myState.setToast(true);
-            myState.setToastMessage(error?.response?.data?.message || "Something went wrong. Please try again.")
+            myState.setToastMessage(error?.response?.data?.message || "Something went wrong. Please try again.");
             myState.setIsAuthenticated(false);
         }
-    }
-
-    // css of register 
-    const container = ` text-gray-200 px-4 pt-0 pb-4`;
-    const wrapper = `flex flex-col gap-4 justify-center items-center my-3`;
-    const title = `text-center text-4xl font-bold`;
-    const registerForm = `flex flex-col gap-4 bg-deepBlue px-9 py-6 rounded-lg w-full md:w-3/4 lg:w-1/2`;
-    const labelInputWrapper = 'flex flex-col gap-1'
-    const labelStyle = 'font-semibold ml-2'
-    const inputStyle = `bg-gray-700 h-12 p-3 rounded-lg`;
-    const submitButton = `text-lg text-black font-semibold h-12 rounded-lg bg-cyan-500`
+    };
 
     return (
-        <>
-            <div className={container}>
-                <div className={wrapper}>
-                    <MdMovie className="text-cyan-500 text-center text-5xl md:text-6xl" />
-                    <h1 className={title}>Register Here   </h1>
-                    <form onSubmit={handleSubmit} className={registerForm}>
+        <div className="min-h-screen bg-leanBlue flex items-center justify-center px-4 py-12">
+            {/* Background decoration */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute -top-40 -right-40 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl" />
+                <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl" />
+            </div>
 
-                        {/* name input  */}
-                        <div className={labelInputWrapper}>
-                            <label htmlFor="exampleInputName" className={labelStyle}>Name </label>
-                            <input
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                type="text"
-                                className={inputStyle}
-                                id="exampleInputName"
-                                placeholder="Enter Name"
-                                required
-                            />
+            <div className="w-full max-w-md relative">
+                {/* Card */}
+                <div className="bg-deepBlue rounded-2xl p-8 shadow-2xl border border-white/10">
+                    {/* Logo */}
+                    <div className="flex flex-col items-center gap-3 mb-8">
+                        <div className="w-12 h-12 bg-cyan-500 rounded-2xl flex items-center justify-center shadow-lg shadow-cyan-500/30">
+                            <MdMovie className="text-black text-2xl" />
                         </div>
-
-                        {/* email input  */}
-                        <div className={labelInputWrapper}>
-                            <label htmlFor="exampleInputEmail" className={labelStyle}>Email address</label>
-                            <input
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                type="email"
-                                className={inputStyle}
-                                id="exampleInputEmail"
-                                placeholder="Enter email"
-                                required
-                            />
+                        <div className="text-center">
+                            <h1 className="text-2xl font-bold text-white">
+                                Create Account
+                            </h1>
+                            <p className="text-waikawaGrey text-sm mt-1">
+                                Join CineVerse today
+                            </p>
                         </div>
-
-                        {/* password input  */}
-                        <div className={labelInputWrapper}>
-                            <label htmlFor="exampleInputPassword" className={labelStyle}>Password</label>
-                            <input
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                type="password"
-                                className={inputStyle}
-                                id="exampleInputPassword"
-                                placeholder="Password"
-                                required
-                            />
-                        </div>
-
-                        <button type="submit" className={submitButton}>Submit</button>
-                    </form>
-                    <div className='hover:text-cyan-500'>
-                        <Link to={'/profile/login'}>Already Have Account? Login here.</Link>
                     </div>
 
+                    {/* Form */}
+                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+                        {/* Name */}
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-white/70 text-sm font-medium">Full Name</label>
+                            <div className="relative">
+                                <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-waikawaGrey text-sm" />
+                                <input
+                                    {...register("name")}
+                                    type="text"
+                                    placeholder="Tanishk Sood"
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pl-9 text-white placeholder-white/30 focus:outline-none focus:border-cyan-500 focus:bg-white/8 transition-all duration-200 text-sm"
+                                />
+                            </div>
+                            {errors.name && (
+                                <p className="text-red-400 text-xs">{errors.name.message}</p>
+                            )}
+                        </div>
+
+                        {/* Email */}
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-white/70 text-sm font-medium">Email Address</label>
+                            <div className="relative">
+                                <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 text-waikawaGrey text-sm" />
+                                <input
+                                    {...register("email")}
+                                    type="email"
+                                    placeholder="tanishk@gmail.com"
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pl-9 text-white placeholder-white/30 focus:outline-none focus:border-cyan-500 transition-all duration-200 text-sm"
+                                />
+                            </div>
+                            {errors.email && (
+                                <p className="text-red-400 text-xs">{errors.email.message}</p>
+                            )}
+                        </div>
+
+                        {/* Password */}
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-white/70 text-sm font-medium">Password</label>
+                            <div className="relative">
+                                <FiLock className="absolute left-3 top-1/2 -translate-y-1/2 text-waikawaGrey text-sm" />
+                                <input
+                                    {...register("password")}
+                                    type="password"
+                                    placeholder="Min 6 characters"
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pl-9 text-white placeholder-white/30 focus:outline-none focus:border-cyan-500 transition-all duration-200 text-sm"
+                                />
+                            </div>
+                            {errors.password && (
+                                <p className="text-red-400 text-xs">{errors.password.message}</p>
+                            )}
+                        </div>
+
+                        {/* Submit */}
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full bg-cyan-500 hover:bg-cyan-400 disabled:bg-cyan-500/50 text-black font-bold py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 mt-2 shadow-lg shadow-cyan-500/20"
+                        >
+                            {isSubmitting ? (
+                                <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                            ) : (
+                                <>
+                                    Create Account
+                                    <FiArrowRight />
+                                </>
+                            )}
+                        </button>
+                    </form>
+
+                    {/* Login Link */}
+                    <p className="text-center text-waikawaGrey text-sm mt-6">
+                        Already have an account?{" "}
+                        <Link
+                            to="/profile/login"
+                            className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
+                        >
+                            Sign in
+                        </Link>
+                    </p>
                 </div>
             </div>
-        </>
-    )
+        </div>
+    );
 }
 
-export default Register
+export default Register;
